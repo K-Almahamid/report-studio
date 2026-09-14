@@ -1,4 +1,5 @@
-import { Languages, Moon, Sun } from 'lucide-react'
+import { Languages, LogOut, Moon, Sun } from 'lucide-react'
+import { useOptionalAccessGate } from '../../auth/AccessGateProvider'
 import { useI18n } from '../../i18n/I18nProvider'
 import { usePreferences } from '../../theme/PreferencesProvider'
 import type { Language } from '../../i18n/types'
@@ -48,11 +49,33 @@ export function LanguageToggleButton({ compact = false }: { compact?: boolean })
   )
 }
 
+export function LogoutButton({ compact = false }: { compact?: boolean }) {
+  const access = useOptionalAccessGate()
+  const { t } = useI18n()
+
+  if (!access) {
+    return null
+  }
+
+  return (
+    <Button
+      variant="secondary"
+      size={compact ? 'sm' : 'md'}
+      aria-label={t('settings.logout')}
+      onClick={access.logout}
+    >
+      <LogOut className="h-4 w-4" />
+      {!compact ? <span>{t('settings.logout')}</span> : null}
+    </Button>
+  )
+}
+
 export function AppHeaderControls({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-2">
       <ThemeToggleButton compact={compact} />
       <LanguageToggleButton compact={compact} />
+      <LogoutButton compact={compact} />
     </div>
   )
 }

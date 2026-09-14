@@ -44,6 +44,10 @@ export function AccessGateProvider({ children }: { children: ReactNode }) {
   )
 }
 
+export function useOptionalAccessGate(): AccessGateContextValue | null {
+  return useContext(AccessGateContext)
+}
+
 export function useAccessGate() {
   const context = useContext(AccessGateContext)
   if (!context) {
