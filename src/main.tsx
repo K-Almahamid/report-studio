@@ -11,7 +11,7 @@ import './index.css'
 
 await seedDatabaseIfNeeded()
 
-registerSW({ immediate: true, scope: import.meta.env.BASE_URL })
+registerSW({ immediate: true })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
+        scope: base,
         includeAssets: ['favicon.svg', 'icons.svg'],
         manifest: {
           name: 'Report Studio',
