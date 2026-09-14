@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react'
-import { Droplet, LayoutDashboard, Users } from 'lucide-react'
+import { ArrowLeftRight, Droplet, LayoutDashboard } from 'lucide-react'
 import type { TranslationKey } from '../i18n/types'
 
 export interface NavLinkItem {
@@ -31,13 +31,19 @@ export const navigationItems: NavItem[] = [
     type: 'group',
     labelKey: 'nav.campaigns',
     icon: Droplet,
-    children: [{ to: '/reports/blood-donation', labelKey: 'nav.bloodDonation' }],
+    children: [
+      { to: '/reports/blood-donation', labelKey: 'nav.bloodDonation' },
+      { to: '/staff', labelKey: 'nav.staff' },
+    ],
   },
   {
-    type: 'link',
-    to: '/employees',
-    labelKey: 'nav.employees',
-    icon: Users,
+    type: 'group',
+    labelKey: 'nav.dutyOfChange',
+    icon: ArrowLeftRight,
+    children: [
+      { to: '/duty-change/form', labelKey: 'nav.dutyFillForm' },
+      { to: '/duty-change/employees', labelKey: 'nav.dutyChangeEmployees' },
+    ],
   },
 ]
 

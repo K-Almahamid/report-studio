@@ -3,6 +3,8 @@ import { AppLayout } from './components/layout/AppLayout'
 import { BloodDonationReportPage } from './pages/BloodDonationReportPage'
 import { BloodDonationReportPreviewPage } from './pages/BloodDonationReportPreviewPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { DutyChangeEmployeesPage } from './pages/DutyChangeEmployeesPage'
+import { DutyChangeFormPage } from './pages/DutyChangeFormPage'
 import { EmployeesPage } from './pages/EmployeesPage'
 import { SettingsPage } from './pages/SettingsPage'
 
@@ -11,7 +13,10 @@ export default function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route index element={<DashboardPage />} />
-        <Route path="employees" element={<EmployeesPage />} />
+        <Route path="staff" element={<EmployeesPage />} />
+        <Route path="employees" element={<Navigate to="/staff" replace />} />
+        <Route path="duty-change/form" element={<DutyChangeFormPage />} />
+        <Route path="duty-change/employees" element={<DutyChangeEmployeesPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="reports/blood-donation" element={<BloodDonationReportPage />} />
         <Route

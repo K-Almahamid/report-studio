@@ -37,7 +37,7 @@ export function DashboardPage() {
             label={t('dashboard.stats.employees')}
             value={employeeCount}
             hint={t('dashboard.stats.employeesHint')}
-            to="/employees"
+            to="/staff"
             icon={Users}
           />
           <StatCard
@@ -70,7 +70,7 @@ export function DashboardPage() {
                 {t('dashboard.quickActions.newBloodDonation')}
               </Button>
             </Link>
-            <Link to="/employees" className="inline-flex">
+            <Link to="/staff" className="inline-flex">
               <Button variant="secondary" className="w-full sm:w-auto">
                 <Users className="h-4 w-4" />
                 {t('dashboard.quickActions.manageEmployees')}

@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 
 interface FieldProps {
   label: string
@@ -45,5 +45,17 @@ export function Select({
     >
       {children}
     </select>
+  )
+}
+
+export function Textarea({
+  className = '',
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement>) {
+  return (
+    <textarea
+      className={`min-h-[5rem] w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-base text-foreground shadow-sm placeholder:text-muted focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted sm:text-sm ${className}`}
+      {...props}
+    />
   )
 }

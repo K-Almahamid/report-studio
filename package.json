@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "preview:pages": "vite preview --base /report-studio/"
+    "preview:pages": "vite preview --base /report-studio/",
+    "seed:staff": "node scripts/build-staff-master-json.mjs"
   },
   "dependencies": {
     "dexie": "^4.4.6",

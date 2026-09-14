@@ -60,10 +60,9 @@ export function syncTeamMembersWithEmployees(
   data: BloodDonationReportData,
   employees: { id?: number; name: string; employeeId: string }[],
 ): BloodDonationReportData {
-  const preferredCodes = ['EMP001', 'EMP002']
-  const resolved = preferredCodes
-    .map((code) => employees.find((employee) => employee.employeeId === code))
-    .filter(Boolean) as { id?: number; name: string; employeeId: string }[]
+  const resolved = employees
+    .filter((employee) => employee.id !== undefined)
+    .slice(0, 2)
 
   if (resolved.length === 0) {
     return data

@@ -8,9 +8,7 @@ export function useEmployees() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const subscription = liveQuery(() =>
-      db.employees.orderBy('name').toArray(),
-    ).subscribe({
+    const subscription = liveQuery(() => db.employees.orderBy('name').toArray()).subscribe({
       next: (rows) => {
         setEmployees(rows)
         setLoading(false)
