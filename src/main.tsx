@@ -6,15 +6,16 @@ import App from './App.tsx'
 import { seedDatabaseIfNeeded } from './database/seed.ts'
 import { ToastProvider } from './hooks/useToast.tsx'
 import { PreferencesProvider } from './theme/PreferencesProvider.tsx'
+import { getRouterBasename } from './utils/routerBasename.ts'
 import './index.css'
 
 await seedDatabaseIfNeeded()
 
-registerSW({ immediate: true })
+registerSW({ immediate: true, scope: import.meta.env.BASE_URL })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={getRouterBasename()}>
       <PreferencesProvider>
         <ToastProvider>
           <App />

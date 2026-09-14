@@ -55,3 +55,38 @@ After the first load, the service worker caches application assets. Use DevTools
 npm run build
 npm run preview
 ```
+
+Preview the production bundle locally (GitHub Pages base path):
+
+```bash
+npm run build && npm run preview:pages
+```
+
+## Deployment
+
+Report Studio is a **static frontend only**. All employee and settings data stays in the browser (IndexedDB). No backend, secrets, or database server are required for deployment.
+
+**Development:**
+
+```bash
+npm install
+npm run dev
+```
+
+**Production build:**
+
+```bash
+npm run build
+```
+
+**GitHub Pages (automated):**
+
+Push to the `main` branch → GitHub Actions builds and deploys → site is published at:
+
+```text
+https://<username>.github.io/report-studio/
+```
+
+Workflow file: `.github/workflows/deploy.yml`
+
+After the first deploy, enable **GitHub Pages** in the repository settings with source **GitHub Actions** (not a legacy branch).
