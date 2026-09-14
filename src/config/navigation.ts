@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react'
-import { Droplet, LayoutDashboard, Settings, Users } from 'lucide-react'
+import { Droplet, LayoutDashboard, Users } from 'lucide-react'
 import type { TranslationKey } from '../i18n/types'
 
 export interface NavLinkItem {
@@ -38,12 +38,6 @@ export const navigationItems: NavItem[] = [
     to: '/employees',
     labelKey: 'nav.employees',
     icon: Users,
-  },
-  {
-    type: 'link',
-    to: '/settings',
-    labelKey: 'nav.settings',
-    icon: Settings,
   },
 ]
 

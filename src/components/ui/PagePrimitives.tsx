@@ -1,4 +1,6 @@
+import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 export function PageHeader({
   title,
@@ -71,16 +73,42 @@ export function StatCard({
   label,
   value,
   hint,
+  to,
+  icon: Icon,
 }: {
   label: string
   value: string | number
   hint?: string
+  to?: string
+  icon?: LucideIcon
 }) {
-  return (
-    <Card>
-      <p className="text-sm font-medium text-muted">{label}</p>
-      <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{value}</p>
-      {hint ? <p className="mt-2 text-xs text-muted">{hint}</p> : null}
-    </Card>
+  const body = (
+    <>
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-sm font-medium text-muted">{label}</p>
+        {Icon ? (
+          <span className="rounded-lg bg-surface-muted p-2 text-foreground">
+            <Icon className="h-4 w-4" aria-hidden />
+          </span>
+        ) : null}
+      </div>
+      <p className="mt-3 text-3xl font-semibold tabular-nums tracking-tight text-foreground">
+        {value}
+      </p>
+      {hint ? <p className="mt-2 text-xs leading-relaxed text-muted">{hint}</p> : null}
+    </>
   )
+
+  const interactiveClass =
+    'rounded-xl border border-border bg-surface p-5 shadow-sm transition-[border-color,box-shadow,background-color] hover:border-primary/35 hover:bg-surface-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg'
+
+  if (to) {
+    return (
+      <Link to={to} className={`group block ${interactiveClass}`} aria-label={label}>
+        {body}
+      </Link>
+    )
+  }
+
+  return <div className={interactiveClass}>{body}</div>
 }

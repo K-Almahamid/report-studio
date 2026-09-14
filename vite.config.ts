@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         scope: base,
-        includeAssets: ['favicon.svg', 'icons.svg'],
+        includeAssets: ['favicon.svg'],
         manifest: {
           name: 'Report Studio',
           short_name: 'Report Studio',
@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
           scope: base,
           icons: [
             {
-              src: 'icons.svg',
+              src: 'favicon.svg',
               sizes: 'any',
               type: 'image/svg+xml',
               purpose: 'any maskable',

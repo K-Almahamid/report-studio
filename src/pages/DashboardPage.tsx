@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Droplet, Users } from 'lucide-react'
+import { ArrowRight, ClipboardList, Droplet, Users } from 'lucide-react'
 import { operationalReportSummaries } from '../config/navigation'
 import { reportDefinitions } from '../reports/registry'
 import {
@@ -37,16 +37,22 @@ export function DashboardPage() {
             label={t('dashboard.stats.employees')}
             value={employeeCount}
             hint={t('dashboard.stats.employeesHint')}
+            to="/employees"
+            icon={Users}
           />
           <StatCard
             label={t('dashboard.stats.campaignReports')}
             value={reportDefinitions.length}
             hint={t('dashboard.stats.campaignReportsHint')}
+            to="/reports/blood-donation"
+            icon={Droplet}
           />
           <StatCard
             label={t('dashboard.stats.reportsGenerated')}
             value={reportsGenerated}
             hint={t('dashboard.stats.reportsGeneratedHint')}
+            to="/reports/blood-donation"
+            icon={ClipboardList}
           />
         </div>
       )}
