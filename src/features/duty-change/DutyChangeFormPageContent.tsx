@@ -13,6 +13,7 @@ import type { TranslationKey } from '../../i18n/types'
 import { Button } from '../../components/ui/Button'
 import { Field, Input } from '../../components/ui/Field'
 import { Card, LoadingBlock, PageHeader } from '../../components/ui/PagePrimitives'
+import { Reveal } from '../../motion/Reveal'
 import { downloadBlob } from '../../utils/download'
 import {
   buildDutyChangeExportBasename,
@@ -177,115 +178,117 @@ export function DutyChangeFormPageContent() {
         }
       />
 
-      <div className="grid w-full gap-4 lg:grid-cols-2">
-        <Card className="space-y-4 text-start">
-          <h2 className="text-sm font-semibold text-foreground">
-            {t('dutyChange.form.assignedSection')}
-          </h2>
-          <Field
-            label={t('dutyChange.fields.assignedDutyArea')}
-            htmlFor="assigned-area"
-            error={errors.assignedDutyArea ? t(errors.assignedDutyArea) : undefined}
-          >
-            <Input
-              id="assigned-area"
-              value={form.assignedDutyArea}
-              onChange={(event) => patchForm({ assignedDutyArea: event.target.value })}
+      <Reveal mode="inView">
+        <div className="grid w-full gap-4 lg:grid-cols-2">
+          <Card className="space-y-4 text-start">
+            <h2 className="text-sm font-semibold text-foreground">
+              {t('dutyChange.form.assignedSection')}
+            </h2>
+            <Field
+              label={t('dutyChange.fields.assignedDutyArea')}
+              htmlFor="assigned-area"
+              error={errors.assignedDutyArea ? t(errors.assignedDutyArea) : undefined}
+            >
+              <Input
+                id="assigned-area"
+                value={form.assignedDutyArea}
+                onChange={(event) => patchForm({ assignedDutyArea: event.target.value })}
+              />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label={t('dutyChange.fields.dutyTime')} htmlFor="assigned-time">
+                <Input
+                  id="assigned-time"
+                  type="time"
+                  value={form.assignedDutyTime}
+                  onChange={(event) => patchForm({ assignedDutyTime: event.target.value })}
+                />
+              </Field>
+              <Field label={t('dutyChange.fields.dutyDate')} htmlFor="assigned-date">
+                <Input
+                  id="assigned-date"
+                  type="date"
+                  value={form.assignedDutyDate}
+                  onChange={(event) => patchForm({ assignedDutyDate: event.target.value })}
+                />
+              </Field>
+            </div>
+          </Card>
+
+          <Card className="space-y-4 text-start">
+            <h2 className="text-sm font-semibold text-foreground">
+              {t('dutyChange.form.changedSection')}
+            </h2>
+            <Field
+              label={t('dutyChange.fields.changedDutyArea')}
+              htmlFor="changed-area"
+              error={errors.changedDutyArea ? t(errors.changedDutyArea) : undefined}
+            >
+              <Input
+                id="changed-area"
+                value={form.changedDutyArea}
+                onChange={(event) => patchForm({ changedDutyArea: event.target.value })}
+              />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label={t('dutyChange.fields.dutyTime')} htmlFor="changed-time">
+                <Input
+                  id="changed-time"
+                  type="time"
+                  value={form.changedDutyTime}
+                  onChange={(event) => patchForm({ changedDutyTime: event.target.value })}
+                />
+              </Field>
+              <Field label={t('dutyChange.fields.dutyDate')} htmlFor="changed-date">
+                <Input
+                  id="changed-date"
+                  type="date"
+                  value={form.changedDutyDate}
+                  onChange={(event) => patchForm({ changedDutyDate: event.target.value })}
+                />
+              </Field>
+            </div>
+          </Card>
+
+          <Card className="space-y-4 text-start lg:col-span-2">
+            <Field
+              label={t('dutyChange.fields.reasonForChange')}
+              htmlFor="reason"
+              error={errors.reasonForChange ? t(errors.reasonForChange) : undefined}
+            >
+              <Input
+                id="reason"
+                value={form.reasonForChange}
+                onChange={(event) => patchForm({ reasonForChange: event.target.value })}
+              />
+            </Field>
+
+            <SearchableStaffSelect
+              id="partner-staff"
+              label={t('dutyChange.fields.partnerStaff')}
+              employees={partnerOptions}
+              value={form.partnerStaffId}
+              onChange={(staffId) => patchForm({ partnerStaffId: staffId })}
+              error={errors.partnerStaffId ? t(errors.partnerStaffId) : undefined}
             />
-          </Field>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={t('dutyChange.fields.dutyTime')} htmlFor="assigned-time">
-              <Input
-                id="assigned-time"
-                type="time"
-                value={form.assignedDutyTime}
-                onChange={(event) => patchForm({ assignedDutyTime: event.target.value })}
-              />
-            </Field>
-            <Field label={t('dutyChange.fields.dutyDate')} htmlFor="assigned-date">
-              <Input
-                id="assigned-date"
-                type="date"
-                value={form.assignedDutyDate}
-                onChange={(event) => patchForm({ assignedDutyDate: event.target.value })}
-              />
-            </Field>
-          </div>
-        </Card>
 
-        <Card className="space-y-4 text-start">
-          <h2 className="text-sm font-semibold text-foreground">
-            {t('dutyChange.form.changedSection')}
-          </h2>
-          <Field
-            label={t('dutyChange.fields.changedDutyArea')}
-            htmlFor="changed-area"
-            error={errors.changedDutyArea ? t(errors.changedDutyArea) : undefined}
-          >
-            <Input
-              id="changed-area"
-              value={form.changedDutyArea}
-              onChange={(event) => patchForm({ changedDutyArea: event.target.value })}
+            <h3 className="pt-2 text-sm font-semibold text-foreground">
+              {t('dutyChange.form.acceptingSection')}
+            </h3>
+            <ReadonlyField
+              id="accepting-name"
+              label={t('dutyChange.fields.staffName')}
+              value={acceptingStaff?.staffName ?? ''}
             />
-          </Field>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={t('dutyChange.fields.dutyTime')} htmlFor="changed-time">
-              <Input
-                id="changed-time"
-                type="time"
-                value={form.changedDutyTime}
-                onChange={(event) => patchForm({ changedDutyTime: event.target.value })}
-              />
-            </Field>
-            <Field label={t('dutyChange.fields.dutyDate')} htmlFor="changed-date">
-              <Input
-                id="changed-date"
-                type="date"
-                value={form.changedDutyDate}
-                onChange={(event) => patchForm({ changedDutyDate: event.target.value })}
-              />
-            </Field>
-          </div>
-        </Card>
-
-        <Card className="space-y-4 text-start lg:col-span-2">
-          <Field
-            label={t('dutyChange.fields.reasonForChange')}
-            htmlFor="reason"
-            error={errors.reasonForChange ? t(errors.reasonForChange) : undefined}
-          >
-            <Input
-              id="reason"
-              value={form.reasonForChange}
-              onChange={(event) => patchForm({ reasonForChange: event.target.value })}
+            <ReadonlyField
+              id="accepting-number"
+              label={t('dutyChange.fields.staffNumber')}
+              value={acceptingStaff?.staffNumber ?? ''}
             />
-          </Field>
-
-          <SearchableStaffSelect
-            id="partner-staff"
-            label={t('dutyChange.fields.partnerStaff')}
-            employees={partnerOptions}
-            value={form.partnerStaffId}
-            onChange={(staffId) => patchForm({ partnerStaffId: staffId })}
-            error={errors.partnerStaffId ? t(errors.partnerStaffId) : undefined}
-          />
-
-          <h3 className="pt-2 text-sm font-semibold text-foreground">
-            {t('dutyChange.form.acceptingSection')}
-          </h3>
-          <ReadonlyField
-            id="accepting-name"
-            label={t('dutyChange.fields.staffName')}
-            value={acceptingStaff?.staffName ?? ''}
-          />
-          <ReadonlyField
-            id="accepting-number"
-            label={t('dutyChange.fields.staffNumber')}
-            value={acceptingStaff?.staffNumber ?? ''}
-          />
-          <p className="text-xs text-muted">{t('dutyChange.form.acceptingSignatureHint')}</p>
-        </Card>
-      </div>
+            <p className="text-xs text-muted">{t('dutyChange.form.acceptingSignatureHint')}</p>
+          </Card>
+        </div>
+      </Reveal>
     </>
   )
 }

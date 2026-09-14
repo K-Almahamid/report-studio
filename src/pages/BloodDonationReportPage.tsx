@@ -5,6 +5,7 @@ import { TeamMembersEditor } from '../components/reports/blood-donation/TeamMemb
 import { Button } from '../components/ui/Button'
 import { Field, Input, Select } from '../components/ui/Field'
 import { Card, PageHeader } from '../components/ui/PagePrimitives'
+import { Reveal } from '../motion/Reveal'
 import { useEmployees } from '../hooks/useEmployees'
 import { useI18n } from '../i18n/I18nProvider'
 import type { TranslationKey } from '../i18n/types'
@@ -112,9 +113,10 @@ export function BloodDonationReportPage() {
         description={t('reports.bloodDonation.form.description')}
       />
 
-      <div className="flex w-full flex-col gap-6">
-        <Card className="w-full space-y-8">
-          <section className="space-y-4">
+      <Reveal mode="inView">
+        <div className="flex w-full flex-col gap-6">
+          <Card className="w-full space-y-8">
+            <section className="space-y-4">
             <div className="text-start">
               <h2 className="text-sm font-semibold text-foreground">
                 {t('reports.bloodDonation.form.infoTitle')}
@@ -186,9 +188,9 @@ export function BloodDonationReportPage() {
                 </Select>
               </Field>
             </div>
-          </section>
+            </section>
 
-          <TeamMembersEditor
+            <TeamMembersEditor
             members={form.teamMembers}
             onChange={(teamMembers) => setForm((current) => ({ ...current, teamMembers }))}
             error={errors.team ? t(errors.team) : undefined}
@@ -199,36 +201,37 @@ export function BloodDonationReportPage() {
                   )
                 : undefined
             }
-          />
+            />
 
-          <PreparationChecklistEditor
+            <PreparationChecklistEditor
             checklist={form.checklist}
             onChange={(checklist) => setForm((current) => ({ ...current, checklist }))}
-          />
+            />
 
-          <div className="flex justify-end border-t border-border-subtle pt-4">
-            <Button onClick={handleReview}>{t('reports.bloodDonation.form.review')}</Button>
-          </div>
-        </Card>
+            <div className="flex justify-end border-t border-border-subtle pt-4">
+              <Button onClick={handleReview}>{t('reports.bloodDonation.form.review')}</Button>
+            </div>
+          </Card>
 
-        <Card className="w-full">
-          <h2 className="text-sm font-semibold text-foreground">
-            {t('reports.bloodDonation.form.summary')}
-          </h2>
-          <dl className="mt-4 space-y-3 text-sm">
-            <div className="flex justify-between gap-3">
-              <dt className="text-muted">{t('reports.bloodDonation.form.summaryTeam')}</dt>
-              <dd className="font-medium text-foreground">{form.teamMembers.length}</dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-muted">{t('reports.bloodDonation.form.summaryChecklist')}</dt>
-              <dd className="font-medium text-foreground">
-                {checklistComplete}/{form.checklist.length}
-              </dd>
-            </div>
-          </dl>
-        </Card>
-      </div>
+          <Card className="w-full">
+            <h2 className="text-sm font-semibold text-foreground">
+              {t('reports.bloodDonation.form.summary')}
+            </h2>
+            <dl className="mt-4 space-y-3 text-sm">
+              <div className="flex justify-between gap-3">
+                <dt className="text-muted">{t('reports.bloodDonation.form.summaryTeam')}</dt>
+                <dd className="font-medium text-foreground">{form.teamMembers.length}</dd>
+              </div>
+              <div className="flex justify-between gap-3">
+                <dt className="text-muted">{t('reports.bloodDonation.form.summaryChecklist')}</dt>
+                <dd className="font-medium text-foreground">
+                  {checklistComplete}/{form.checklist.length}
+                </dd>
+              </div>
+            </dl>
+          </Card>
+        </div>
+      </Reveal>
     </>
   )
 }

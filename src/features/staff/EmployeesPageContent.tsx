@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { FileDown, FileUp, Pencil, Plus, Search, Trash2 } from 'lucide-react'
+import { FileDown, FileUp, Pencil, Plus, Trash2 } from 'lucide-react'
 import { db } from '../../database/db'
 import { useStaffPermissions } from '../../auth/permissions'
 import type { Employee } from '../../types/employee'
@@ -8,9 +8,11 @@ import { useToast } from '../../hooks/useToast'
 import { useI18n } from '../../i18n/I18nProvider'
 import type { TranslationKey } from '../../i18n/types'
 import { Button } from '../../components/ui/Button'
+import { ExpandableSearchField } from '../../components/ui/ExpandableSearchMenu'
 import { Field, Input } from '../../components/ui/Field'
 import { ConfirmDialog, Modal } from '../../components/ui/Modal'
 import { EmptyState, LoadingBlock, PageHeader } from '../../components/ui/PagePrimitives'
+import { Reveal } from '../../motion/Reveal'
 import { downloadBlob } from '../../utils/download'
 import { exportStaffToExcel } from './exportStaffExcel'
 import { importStaffRosterRows } from './importStaffRoster'
@@ -238,18 +240,13 @@ export function EmployeesPageContent() {
 
       <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-4">
         <div className="min-w-0 flex-1">
-          <Field label={t('employees.searchLabel')} htmlFor="staff-search">
-            <div className="relative">
-              <Search className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-              <Input
-                id="staff-search"
-                className="ps-9"
-                placeholder={t('employees.searchPlaceholder')}
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-              />
-            </div>
-          </Field>
+          <ExpandableSearchField
+            label={t('employees.searchLabel')}
+            htmlFor="staff-search"
+            placeholder={t('employees.searchPlaceholder')}
+            value={query}
+            onChange={setQuery}
+          />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {permissions.canImport ? (
@@ -277,9 +274,10 @@ export function EmployeesPageContent() {
         </div>
       </div>
 
-      {loading ? (
-        <LoadingBlock label={t('common.loading')} />
-      ) : employees.length === 0 ? (
+      <Reveal mode="inView">
+        {loading ? (
+          <LoadingBlock label={t('common.loading')} />
+        ) : employees.length === 0 ? (
         <EmptyState
           title={t('employees.emptyTitle')}
           description={t('employees.emptyDescription')}
@@ -349,7 +347,8 @@ export function EmployeesPageContent() {
             </tbody>
           </table>
         </div>
-      )}
+        )}
+      </Reveal>
 
       <Modal
         open={modalOpen}

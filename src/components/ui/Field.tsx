@@ -1,4 +1,10 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import {
+  forwardRef,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react'
 
 interface FieldProps {
   label: string
@@ -11,9 +17,11 @@ interface FieldProps {
 export function Field({ label, htmlFor, error, hint, children }: FieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={htmlFor} className="block text-sm font-medium text-foreground">
-        {label}
-      </label>
+      {label ? (
+        <label htmlFor={htmlFor} className="block text-sm font-medium text-foreground">
+          {label}
+        </label>
+      ) : null}
       {children}
       {hint && !error ? <p className="text-xs text-muted">{hint}</p> : null}
       {error ? <p className="text-xs text-danger">{error}</p> : null}
@@ -21,17 +29,17 @@ export function Field({ label, htmlFor, error, hint, children }: FieldProps) {
   )
 }
 
-export function Input({
-  className = '',
-  ...props
-}: InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-base text-foreground shadow-sm placeholder:text-muted focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted sm:text-sm ${className}`}
-      {...props}
-    />
-  )
-}
+export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  function Input({ className = '', ...props }, ref) {
+    return (
+      <input
+        ref={ref}
+        className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-base text-foreground shadow-sm placeholder:text-muted focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted sm:text-sm ${className}`}
+        {...props}
+      />
+    )
+  },
+)
 
 export function Select({
   className = '',

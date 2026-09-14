@@ -1,4 +1,6 @@
-import { Field, Input, Select } from '../ui/Field'
+import { useMemo } from 'react'
+import { Field, Input } from '../ui/Field'
+import { SearchableDropdown } from '../ui/ExpandableSearchMenu'
 import { useEmployees } from '../../hooks/useEmployees'
 import { useI18n } from '../../i18n/I18nProvider'
 import type { Employee } from '../../types/employee'
@@ -14,33 +16,36 @@ export function EmployeeSelector({ value, onChange, error }: EmployeeSelectorPro
   const { employees, loading } = useEmployees()
   const { t } = useI18n()
 
+  const options = useMemo(
+    () =>
+      employees
+        .filter((employee): employee is Employee & { id: number } => employee.id != null)
+        .map((employee) => ({
+          value: employee.id,
+          label: `${employee.name} — ${employee.employeeId}`,
+        })),
+    [employees],
+  )
+
   if (loading) {
     return <LoadingBlock label={t('employees.loadingEmployees')} />
   }
 
   return (
-    <Field label={t('employees.employeeField')} htmlFor="employeeId" error={error}>
-      <Select
-        id="employeeId"
-        value={value}
-        onChange={(event) => {
-          const id = Number.parseInt(event.target.value, 10)
-          if (Number.isNaN(id)) {
-            onChange(null)
-            return
-          }
-          const employee = employees.find((row) => row.id === id) ?? null
-          onChange(employee)
-        }}
-      >
-        <option value="">{t('employees.selectPlaceholder')}</option>
-        {employees.map((employee) => (
-          <option key={employee.id} value={employee.id}>
-            {employee.name} — {employee.employeeId}
-          </option>
-        ))}
-      </Select>
-    </Field>
+    <SearchableDropdown
+      id="employeeId"
+      label={t('employees.employeeField')}
+      placeholder={t('employees.selectPlaceholder')}
+      searchPlaceholder={t('employees.searchPlaceholder')}
+      options={options}
+      value={value}
+      onChange={(id) => {
+        const employee = employees.find((row) => row.id === id) ?? null
+        onChange(employee)
+      }}
+      error={error}
+      noResultsLabel={t('employees.noMatchesTitle')}
+    />
   )
 }
 

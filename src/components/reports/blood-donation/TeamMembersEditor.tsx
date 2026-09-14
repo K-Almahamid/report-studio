@@ -4,7 +4,8 @@ import { useEmployees } from '../../../hooks/useEmployees'
 import { useI18n } from '../../../i18n/I18nProvider'
 import type { BloodDonationTeamMember } from '../../../reports/blood-donation/types'
 import { Button } from '../../ui/Button'
-import { Field, Select } from '../../ui/Field'
+import { SearchableDropdown } from '../../ui/ExpandableSearchMenu'
+import { Field } from '../../ui/Field'
 import { LoadingBlock } from '../../ui/PagePrimitives'
 
 interface TeamMembersEditorProps {
@@ -90,27 +91,24 @@ export function TeamMembersEditor({
               htmlFor={`team-member-${member.id}`}
               error={memberErrors?.[member.id]}
             >
-              <Select
+              <SearchableDropdown
+                embedded
                 id={`team-member-${member.id}`}
-                value={member.employeeDbId || ''}
-                onChange={(event) =>
-                  updateMember(member.id, Number.parseInt(event.target.value, 10))
-                }
-              >
-                <option value="">{t('employees.selectPlaceholder')}</option>
-                {employees.map((employee) => (
-                  <option
-                    key={employee.id}
-                    value={employee.id}
-                    disabled={
+                placeholder={t('employees.selectPlaceholder')}
+                searchPlaceholder={t('employees.searchPlaceholder')}
+                options={employees
+                  .filter((employee) => employee.id != null)
+                  .map((employee) => ({
+                    value: employee.id as number,
+                    label: `${employee.name} — ${employee.employeeId}`,
+                    disabled:
                       usedEmployeeIds.has(employee.id ?? 0) &&
-                      employee.id !== member.employeeDbId
-                    }
-                  >
-                    {employee.name} — {employee.employeeId}
-                  </option>
-                ))}
-              </Select>
+                      employee.id !== member.employeeDbId,
+                  }))}
+                value={member.employeeDbId || ''}
+                onChange={(employeeDbId) => updateMember(member.id, employeeDbId)}
+                noResultsLabel={t('employees.noMatchesTitle')}
+              />
             </Field>
             <Field label={t('employees.employeeName')} htmlFor={`team-name-${member.id}`}>
               <input

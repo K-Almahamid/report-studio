@@ -3,10 +3,12 @@ import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { navigationItems, type NavItem } from '../../config/navigation'
 import { useI18n } from '../../i18n/I18nProvider'
+import { CollapsiblePanel, panelMotion } from '../ui/ExpandableSearchMenu'
 
 function NavLinkClasses(isActive: boolean, nested = false) {
   return [
     'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+    panelMotion,
     nested ? 'ps-10' : '',
     isActive
       ? 'bg-nav-active-bg text-nav-active-fg'
@@ -17,6 +19,10 @@ function NavLinkClasses(isActive: boolean, nested = false) {
 function SidebarNavItem({ item }: { item: NavItem }) {
   const location = useLocation()
   const { t } = useI18n()
+  const isGroup = item.type === 'group'
+  const isGroupActive =
+    isGroup && item.children.some((child) => location.pathname.startsWith(child.to))
+  const [open, setOpen] = useState(isGroupActive)
 
   if (item.type === 'link') {
     const Icon = item.icon
@@ -33,10 +39,6 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   }
 
   const Icon = item.icon
-  const isGroupActive = item.children.some((child) =>
-    location.pathname.startsWith(child.to),
-  )
-  const [open, setOpen] = useState(isGroupActive)
 
   return (
     <div>
@@ -51,22 +53,23 @@ function SidebarNavItem({ item }: { item: NavItem }) {
           {t(item.labelKey)}
         </span>
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`h-4 w-4 shrink-0 transition-transform ${panelMotion} ${open ? 'rotate-180' : ''}`}
         />
       </button>
-      {open ? (
+      <CollapsiblePanel open={open}>
         <div className="mt-1 space-y-1">
           {item.children.map((child) => (
             <NavLink
               key={child.to}
               to={child.to}
               className={({ isActive }) => NavLinkClasses(isActive, true)}
+              tabIndex={open ? undefined : -1}
             >
               {t(child.labelKey)}
             </NavLink>
           ))}
         </div>
-      ) : null}
+      </CollapsiblePanel>
     </div>
   )
 }

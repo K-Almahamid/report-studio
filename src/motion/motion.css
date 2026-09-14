@@ -1,0 +1,48 @@
+@keyframes rs-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rs-page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rs-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.rs-reveal-visible {
+  animation: rs-reveal-in 0.42s ease-out forwards;
+  animation-delay: calc(var(--rs-stagger, 0) * 55ms);
+}
+
+.rs-page-enter {
+  animation: rs-page-in 0.32s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .rs-reveal-visible {
+    animation: none;
+  }
+
+  .rs-page-enter {
+    animation: none;
+  }
+}
