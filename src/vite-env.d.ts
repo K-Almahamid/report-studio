@@ -1,2 +1,11 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_REPOSITORY_NAME?: string
+  readonly VITE_APP_PASSWORD?: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

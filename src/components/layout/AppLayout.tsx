@@ -1,6 +1,6 @@
 import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { AppHeaderControls } from '../preferences/PreferenceControls'
 import { useI18n } from '../../i18n/I18nProvider'
 import { SidebarNav } from './SidebarNav'
@@ -8,7 +8,12 @@ import { ToastViewport } from '../ui/ToastViewport'
 
 export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const location = useLocation()
   const { t } = useI18n()
+
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
 
   return (
     <div className="min-h-dvh lg:flex">
@@ -31,11 +36,11 @@ export function AppLayout() {
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
             type="button"
-            className="absolute inset-0 bg-overlay"
+            className="absolute inset-0 z-0 bg-overlay"
             aria-label={t('a11y.closeMenu')}
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute inset-y-0 start-0 w-[min(100%,20rem)] bg-surface shadow-xl">
+          <div className="absolute inset-y-0 start-0 z-10 w-[min(100%,20rem)] bg-surface shadow-xl">
             <div className="flex items-center justify-between border-b border-border-subtle px-4 py-4">
               <div className="min-w-0 text-start">
                 <p className="text-sm font-semibold text-foreground">{t('app.title')}</p>
@@ -50,7 +55,7 @@ export function AppLayout() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="px-3 py-4" onClick={() => setMobileOpen(false)}>
+            <div className="px-3 py-4">
               <SidebarNav />
             </div>
           </div>

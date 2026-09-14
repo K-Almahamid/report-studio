@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { registerSW } from 'virtual:pwa-register'
+import { AccessGateProvider } from './auth/AccessGateProvider.tsx'
 import App from './App.tsx'
 import { seedDatabaseIfNeeded } from './database/seed.ts'
 import { ToastProvider } from './hooks/useToast.tsx'
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter basename={getRouterBasename()}>
       <PreferencesProvider>
         <ToastProvider>
-          <App />
+          <AccessGateProvider>
+            <App />
+          </AccessGateProvider>
         </ToastProvider>
       </PreferencesProvider>
     </BrowserRouter>

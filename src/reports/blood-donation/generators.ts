@@ -3,6 +3,7 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import { getChecklistDefinitionById } from './checklist'
 import type { BloodDonationReportData } from './types'
 import { formatDisplayDate, formatLongDisplayDate } from '../../utils/download'
+import { toWinAnsiSafeText } from '../../utils/pdfText'
 
 export async function generateBloodDonationExcel(data: BloodDonationReportData): Promise<Blob> {
   const workbook = new ExcelJS.Workbook()
@@ -72,7 +73,7 @@ export async function generateBloodDonationPdf(data: BloodDonationReportData): P
   const lineHeight = 16
 
   const drawLine = (text: string, bold = false, size = 11) => {
-    page.drawText(text, {
+    page.drawText(toWinAnsiSafeText(text), {
       x: margin,
       y,
       size: bold ? 13 : size,
@@ -92,13 +93,13 @@ export async function generateBloodDonationPdf(data: BloodDonationReportData): P
   y -= 6
   drawLine('Team', true)
   for (const member of data.teamMembers) {
-    drawLine(`• ${member.employeeName} — ${member.employeeId}`)
+    drawLine(`- ${member.employeeName} - ${member.employeeId}`)
   }
   y -= 6
   drawLine('Preparation Checklist', true)
   for (const entry of data.checklist) {
     const definition = getChecklistDefinitionById(entry.itemId)
-    const mark = entry.checked ? '✓' : '✗'
+    const mark = entry.checked ? '[x]' : '[ ]'
     drawLine(`${mark} ${definition?.id ?? entry.itemId}`)
   }
 
