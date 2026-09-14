@@ -12,6 +12,7 @@ import type { Language } from '../i18n/types'
 import {
   cachePreferences,
   initializePreferences,
+  readCachedPreferences,
   savePreferencesToDatabase,
   type AppPreferences,
   type ThemeMode,
@@ -28,7 +29,7 @@ interface PreferencesContextValue {
 const PreferencesContext = createContext<PreferencesContextValue | null>(null)
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [preferences, setPreferences] = useState<AppPreferences | null>(null)
+  const [preferences, setPreferences] = useState<AppPreferences>(() => readCachedPreferences())
 
   useEffect(() => {
     let active = true
@@ -82,20 +83,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       language: preferences?.language ?? 'en',
       setTheme,
       setLanguage,
-      ready: preferences !== null,
+      ready: true,
     }),
     [preferences, setTheme, setLanguage],
   )
-
-  if (!preferences) {
-    return (
-      <div className="flex min-h-dvh items-center justify-center bg-app-bg text-muted">
-        <div className="flex items-center gap-3 text-sm">
-          <span className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-foreground" />
-        </div>
-      </div>
-    )
-  }
 
   return (
     <PreferencesContext.Provider value={value}>

@@ -27,7 +27,7 @@ export function Input({
 }: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted ${className}`}
+      className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-base text-foreground shadow-sm placeholder:text-muted focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted sm:text-sm ${className}`}
       {...props}
     />
   )
@@ -40,7 +40,7 @@ export function Select({
 }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-foreground shadow-sm focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted ${className}`}
+      className={`w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-base text-foreground shadow-sm focus:border-focus-ring focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-surface-muted sm:text-sm ${className}`}
       {...props}
     >
       {children}

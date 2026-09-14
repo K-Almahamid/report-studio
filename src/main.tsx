@@ -9,14 +9,16 @@ import { ToastProvider } from './hooks/useToast.tsx'
 import { PreferencesProvider } from './theme/PreferencesProvider.tsx'
 import { getRouterBasename } from './utils/routerBasename.ts'
 import './index.css'
+import { RouteNavigationEffects } from './routing/RouteNavigationEffects.tsx'
 
-await seedDatabaseIfNeeded()
-
-registerSW({ immediate: true })
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual'
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={getRouterBasename()}>
+      <RouteNavigationEffects />
       <PreferencesProvider>
         <ToastProvider>
           <AccessGateProvider>
@@ -27,3 +29,6 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </StrictMode>,
 )
+
+void seedDatabaseIfNeeded()
+registerSW({ immediate: true })
