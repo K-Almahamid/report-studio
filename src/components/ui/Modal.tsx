@@ -38,7 +38,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative z-10 w-full max-w-lg rounded-xl border border-border bg-surface shadow-xl"
+        className="relative z-10 w-full max-w-3xl rounded-xl border border-border bg-surface shadow-xl"
       >
         <div className="flex items-start justify-between gap-4 border-b border-border-subtle px-5 py-4">
           <div className="min-w-0 text-start">

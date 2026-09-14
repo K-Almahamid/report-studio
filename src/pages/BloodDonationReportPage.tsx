@@ -112,8 +112,8 @@ export function BloodDonationReportPage() {
         description={t('reports.bloodDonation.form.description')}
       />
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_18rem]">
-        <Card className="space-y-8">
+      <div className="flex w-full flex-col gap-6">
+        <Card className="w-full space-y-8">
           <section className="space-y-4">
             <div className="text-start">
               <h2 className="text-sm font-semibold text-foreground">
@@ -211,7 +211,7 @@ export function BloodDonationReportPage() {
           </div>
         </Card>
 
-        <Card className="h-fit xl:sticky xl:top-8">
+        <Card className="w-full">
           <h2 className="text-sm font-semibold text-foreground">
             {t('reports.bloodDonation.form.summary')}
           </h2>

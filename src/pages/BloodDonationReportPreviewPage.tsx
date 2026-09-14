@@ -103,7 +103,7 @@ export function BloodDonationReportPreviewPage() {
         }
       />
 
-      <Card className="mx-auto max-w-3xl text-start">
+      <Card className="w-full text-start">
         <div className="border-b border-border-subtle pb-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted">
             {t('reports.bloodDonation.preview.reportLabel')}
