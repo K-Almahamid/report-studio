@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      ;(function () {
+        try {
+          var theme = localStorage.getItem('report-studio:theme')
+          var language = localStorage.getItem('report-studio:language')
+          var root = document.documentElement
+          root.classList.remove('light', 'dark')
+          root.classList.add(theme === 'light' ? 'light' : 'dark')
+          root.lang = language === 'ar' ? 'ar' : 'en'
+          root.dir = language === 'ar' ? 'rtl' : 'ltr'
+        } catch (e) {}
+      })()
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Report Studio</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
